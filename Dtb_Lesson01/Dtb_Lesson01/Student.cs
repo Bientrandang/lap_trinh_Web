@@ -2,7 +2,7 @@
 
 namespace Dtb_Lesson01
 {
-
+ 
     internal class Student
     {
         // Properties
