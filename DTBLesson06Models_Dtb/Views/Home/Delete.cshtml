@@ -1,0 +1,9 @@
+@model DtbMember
+<h1>Delete</h1>
+<p>Bạn có chắc muốn xóa thành viên này không?</p>
+<p><b>@Model.DtbMemberFullName</b> - @Model.DtbMemberUserName</p>
+<form asp-action="DeleteConfirmed" method="post">
+<input type="hidden" asp-for="DtbMemberId" />
+<button type="submit">Delete</button>
+<a asp-action="Index">Back to List</a>
+</form>

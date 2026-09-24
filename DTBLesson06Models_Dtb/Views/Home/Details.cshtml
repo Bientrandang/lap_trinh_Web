@@ -1,0 +1,9 @@
+@model DtbMember
+<h1>Details</h1>
+<p><b>DtbMemberId:</b> @Model.DtbMemberId</p>
+<p><b>DtbMemberUserName:</b> @Model.DtbMemberUserName</p>
+<p><b>DtbMemberPassword:</b> @Model.DtbMemberPassword</p>
+<p><b>DtbMemberEmail:</b> @Model.DtbMemberEmail</p>
+<p><b>DtbMemberFullName:</b> @Model.DtbMemberFullName</p>
+<a asp-action="Edit" asp-route-id="@Model.DtbMemberId">Sửa</a> |
+<a asp-action="Index">Back to List</a>

@@ -1,0 +1,13 @@
+@model DtbMember
+<h1>Edit</h1>
+<div class="form-box">
+<form asp-action="Edit" method="post">
+<input type="hidden" asp-for="DtbMemberId" />
+<div class="form-row"><label asp-for="DtbMemberUserName"></label><input asp-for="DtbMemberUserName" /></div>
+<div class="form-row"><label asp-for="DtbMemberPassword"></label><input asp-for="DtbMemberPassword" /></div>
+<div class="form-row"><label asp-for="DtbMemberEmail"></label><input asp-for="DtbMemberEmail" /></div>
+<div class="form-row"><label asp-for="DtbMemberFullName"></label><input asp-for="DtbMemberFullName" /></div>
+<button type="submit">Save</button>
+<a asp-action="Index">Back to List</a>
+</form>
+</div>

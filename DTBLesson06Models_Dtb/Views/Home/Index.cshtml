@@ -1,0 +1,35 @@
+@model IEnumerable<DtbMember>
+
+<h1>DtbIndex</h1>
+
+<a class="create" asp-action="Create">Create New</a>
+
+<table>
+    <thead>
+        <tr>
+            <th>DtbMemberId</th>
+            <th>DtbMemberUserName</th>
+            <th>DtbMemberPassword</th>
+            <th>DtbMemberEmail</th>
+            <th>DtbMemberFullName</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.DtbMemberId</td>
+                <td>@item.DtbMemberUserName</td>
+                <td>@item.DtbMemberPassword</td>
+                <td>@item.DtbMemberEmail</td>
+                <td>@item.DtbMemberFullName</td>
+                <td class="actions">
+                    <a asp-action="Edit" asp-route-id="@item.DtbMemberId">Sửa</a> |
+                    <a asp-action="Details" asp-route-id="@item.DtbMemberId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.DtbMemberId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
