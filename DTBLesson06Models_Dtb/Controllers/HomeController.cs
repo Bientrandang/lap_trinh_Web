@@ -10,10 +10,10 @@ namespace DTBLesson06Models.Controllers
             new DtbMember
             {
                 DtbMemberId = Guid.NewGuid(),
-                DtbMemberUserName = "abc",
-                DtbMemberPassword = "123456a@",
-                DtbMemberEmail = "abc@gmail.com",
-                DtbMemberFullName = "Abc"
+                DtbMemberUserName = "bien",
+                DtbMemberPassword = "bien26",
+                DtbMemberEmail = "bien26@gmail.com",
+                DtbMemberFullName = "Dang Tran Bien"
             },
             new DtbMember
             {

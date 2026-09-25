@@ -1,0 +1,29 @@
+@model DTBLesson06Models.Models.Dtb_User
+
+<h2>Create User</h2>
+
+<form asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="DtbName">Họ tên</label>
+        <input asp-for="DtbName" />
+        <span asp-validation-for="DtbName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DtbAddress">Địa chỉ</label>
+        <input asp-for="DtbAddress" />
+        <span asp-validation-for="DtbAddress" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DtbEmail">Email</label>
+        <input asp-for="DtbEmail" />
+        <span asp-validation-for="DtbEmail" class="text-danger"></span>
+    </div>
+
+    <button class="btn" type="submit">Create</button>
+    <a class="btn" asp-action="Index">Back to List</a>
+</form>
