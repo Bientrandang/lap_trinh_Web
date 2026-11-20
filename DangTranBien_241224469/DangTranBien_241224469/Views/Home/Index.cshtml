@@ -1,0 +1,50 @@
+﻿@model IEnumerable<DangTranBien_241224469.Models.Sach>
+@{
+    ViewData["Title"] = "Trang chủ";
+}
+
+<div class="section-head">
+    <h3 id="section-title">@(ViewBag.TitleCategory ?? "ĐẶNG TRẦN BIÊN")</h3>
+    <div>
+        <a asp-action="Create" style="margin-right: 15px; color: #125e6e; font-weight: 600;">+ Thêm sách mới</a>
+        <a href="javascript:void(0)" style="color: #d9531e;">Xem tất cả &rsaquo;</a>
+    </div>
+</div>
+
+<div id="book-container">
+    <partial name="_DangTranBien_MainConttent" model="Model" />
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Câu 4: Lọc sách theo thể loại bằng AJAX
+            $(document).on('click', '#menu-nav .ajax-category', function (e) {
+                e.preventDefault();
+                var parentLi = $(this).closest('li');
+                var maTL = parentLi.data('id');
+                var titleName = parentLi.data('name');
+
+                // Cập nhật trạng thái active trên menu
+                $('#menu-nav li').removeClass('active');
+                parentLi.addClass('active');
+
+                // Đổi tiêu đề khu vực nội dung thành tên thể loại được chọn
+                $('#section-title').text(titleName);
+
+                // Gọi AJAX để lọc danh sách sách
+                $.ajax({
+                    url: '@Url.Action("GetSachByTheLoai", "Home")',
+                    type: 'GET',
+                    data: { maTL: maTL },
+                    success: function (response) {
+                        $('#book-container').html(response);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Lỗi khi tải dữ liệu:', error);
+                    }
+                });
+            });
+        });
+    </script>
+}

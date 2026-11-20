@@ -1,0 +1,13 @@
+@model IEnumerable<DangTranBien_241224469.Models.TheLoai>
+
+<ul class="menu" id="menu-nav">
+    <li class="active menu-item" data-id="0" data-name="ĐẶNG TRẦN BIÊN">
+        <a href="javascript:void(0)" class="ajax-category">ĐẶNG TRẦN BIÊN</a>
+    </li>
+    @foreach (var tl in Model)
+    {
+        <li class="menu-item" data-id="@tl.MaTl" data-name="@tl.TenTl.ToUpper()">
+            <a href="javascript:void(0)" class="ajax-category">@tl.TenTl</a>
+        </li>
+    }
+</ul>
