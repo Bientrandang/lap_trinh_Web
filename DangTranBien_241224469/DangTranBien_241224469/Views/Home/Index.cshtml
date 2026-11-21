@@ -1,7 +1,7 @@
-﻿@model IEnumerable<DangTranBien_241224469.Models.HangHoa>
+﻿@model IEnumerable<DangTranBien_241224469.Models.TaiSan>
 @{
-    ViewData["Title"] = "DangTranBien - 241224469";
-    Layout = "DangTranBien_Layout";
+    ViewData["Title"] = "Trang chủ - Quản lý tài sản";
 }
 
-@await Html.PartialAsync("DangTranBien_MainContent", Model)
+<!-- Câu 1.1: Render DangTranBien_MainContent trong layout/view -->
+<partial name="DangTranBien_MainContent" model="Model" />

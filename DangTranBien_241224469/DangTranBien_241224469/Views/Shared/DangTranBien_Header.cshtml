@@ -1,73 +1,47 @@
-@inject DangTranBien_241224469.Models.QLHangHoaContext _context
+@inject DangTranBien_241224469.Models.QLTaiSanContext DbContext
 @{
-    var loaiHangs = _context.LoaiHangs.OrderBy(l => l.MaLoai).ToList();
-    var selectedMaLoai = (int?)ViewBag.SelectedMaLoai ?? 0;
+    var loaiTaiSans = DbContext.LoaiTaiSans.OrderBy(l => l.MaLoai).ToList();
+    var tongSoTaiSan = DbContext.TaiSans.Count();
+    var tongNguyenGia = DbContext.TaiSans.Sum(t => t.NguyenGia ?? 0);
 }
 
 <!-- Begin Header -->
-<div class="header">
-    <div class="header_top">
-        <div class="logo">
-            <a asp-controller="Home" asp-action="Index"><img src="~/images/logo.png" alt="Home Shoppe" /></a>
+<header class="header">
+    <div class="topbar">
+        <div class="container">
+            <span>Phòng Hành chính - Quản trị: <b>(024) 3999 8888</b> &nbsp;|&nbsp; Hỗ trợ: taisan@assethub.vn</span>
+            <span>Xin chào, Quản trị viên &nbsp;|&nbsp; <a asp-controller="TaiSan" asp-action="Create" style="color:#f5a623;font-weight:600;text-decoration:underline;">+ Thêm tài sản mới</a> &nbsp;|&nbsp; Đăng xuất</span>
         </div>
-        <div class="cart">
-            <p>
-                Welcome to our Online Store! <span>Cart:</span>
-                <a asp-controller="HangHoa" asp-action="Create" style="margin-left: 10px; font-weight: bold; color: #B81D22; text-decoration: underline;">[Thêm Hàng Hóa Mới]</a>
-                <div id="dd" class="wrapper-dropdown-2"> 0 item(s) - $0.00
-                    <ul class="dropdown">
-                        <li>you have no items in your Shopping cart</li>
-                    </ul>
-                </div>
-            </p>
-        </div>		
-        <div class="clear"></div>
     </div>
-    <div class="header_bottom">
-        <div class="menu">
-            <ul>
-                <li class="@(selectedMaLoai == 0 ? "active" : "")" id="menu-home">
-                    <a href="javascript:void(0)" onclick="loadHangHoaByLoai(0, this)">DangTranBien</a>
+    <div class="header-main">
+        <div class="container">
+            <a asp-controller="Home" asp-action="Index"><img src="~/images/logo.png" alt="AssetHub" /></a>
+            <div style="display:flex;align-items:center;gap:15px;">
+                <a asp-controller="TaiSan" asp-action="Create" class="btn-buy" style="background:#f5a623;color:#142c52;font-weight:700;padding:8px 16px;border-radius:20px;text-decoration:none;display:inline-block;">+ Thêm tài sản</a>
+                <div class="cart-box">Tổng tài sản: @tongSoTaiSan - Nguyên giá: @tongNguyenGia.ToString("N0") triệu</div>
+            </div>
+        </div>
+    </div>
+    <nav class="navbar">
+        <div class="container">
+            <ul class="menu" id="main-nav-menu">
+                <!-- Câu 2.2: Menu “Trang chủ” được thay thế bằng họ tên sinh viên (DangTranBien) -->
+                <li class="active">
+                    <a href="/" class="nav-filter-link" data-maloai="0" data-tenloai="DangTranBien">DangTranBien</a>
                 </li>
-                @foreach (var loai in loaiHangs)
+                <!-- Các menu còn lại được thay bằng danh sách loại tài sản từ CSDL -->
+                @foreach (var item in loaiTaiSans)
                 {
-                    <li class="@(selectedMaLoai == loai.MaLoai ? "active" : "")" id="menu-loai-@loai.MaLoai">
-                        <a href="javascript:void(0)" onclick="loadHangHoaByLoai(@loai.MaLoai, this)">@loai.TenLoai</a>
+                    <li>
+                        <a href="javascript:void(0);" class="nav-filter-link" data-maloai="@item.MaLoai" data-tenloai="@item.TenLoai">@item.TenLoai</a>
                     </li>
                 }
-                <div class="clear"></div>
             </ul>
-        </div>
-        <div class="search_box">
-            <form>
-                <input type="text" value="Search" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}">
-                <input type="button" value="">
+            <form class="search-box" onsubmit="return false;">
+                <input type="text" placeholder="Tìm tài sản..." />
+                <button type="button">Tìm</button>
             </form>
         </div>
-        <div class="clear"></div>
-    </div>	     
-</div>
+    </nav>
+</header>
 <!-- End Header -->
-
-<script type="text/javascript">
-    function loadHangHoaByLoai(maLoai, element) {
-        $('.menu ul li').removeClass('active');
-        $(element).parent().addClass('active');
-
-        if ($('#mainContentArea').length > 0) {
-            $.ajax({
-                url: '@Url.Action("GetHangHoaByLoai", "Home")',
-                type: 'GET',
-                data: { maLoai: maLoai },
-                success: function(data) {
-                    $('#mainContentArea').html(data);
-                },
-                error: function(xhr, status, error) {
-                    console.error("Lỗi khi tải hàng hóa: " + error);
-                }
-            });
-        } else {
-            window.location.href = '/?maLoai=' + maLoai;
-        }
-    }
-</script>

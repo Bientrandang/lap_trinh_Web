@@ -1,48 +1,64 @@
 using System.Diagnostics;
+using DangTranBien_241224469.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using DangTranBien_241224469.Models;
 
 namespace DangTranBien_241224469.Controllers;
 
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-    private readonly QLHangHoaContext _context;
+    private readonly QLTaiSanContext _context;
 
-    public HomeController(ILogger<HomeController> logger, QLHangHoaContext context)
+    public HomeController(ILogger<HomeController> logger, QLTaiSanContext context)
     {
         _logger = logger;
         _context = context;
     }
 
-    public async Task<IActionResult> Index(int? maLoai)
+    // Câu 3: Load dữ liệu từ bảng TaiSan để hiển thị danh sách các TaiSan có NguyenGia >= 20, tài sản NULL không hiển thị
+    public async Task<IActionResult> Index()
     {
-        var query = _context.HangHoas.Where(h => h.Gia != null && h.Gia >= 100);
+        var danhSachTaiSan = await _context.TaiSans
+            .Include(t => t.MaLoaiNavigation)
+            .Where(t => t.NguyenGia != null && t.NguyenGia >= 20)
+            .OrderBy(t => t.MaTs)
+            .ToListAsync();
 
-        if (maLoai.HasValue && maLoai.Value > 0)
-        {
-            query = query.Where(h => h.MaLoai == maLoai.Value);
-        }
-
-        var list = await query.ToListAsync();
-        ViewBag.SelectedMaLoai = maLoai ?? 0;
-        return View(list);
+        ViewBag.SectionTitle = "DangTranBien";
+        return View(danhSachTaiSan);
     }
 
-    // AJAX Endpoint to get HangHoa filtered by LoaiHang
+    // Câu 4: AJAX lọc danh sách tài sản theo loại
     [HttpGet]
-    public async Task<IActionResult> GetHangHoaByLoai(int? maLoai)
+    public async Task<IActionResult> FilterByLoai(int maLoai)
     {
-        var query = _context.HangHoas.Where(h => h.Gia != null && h.Gia >= 100);
-
-        if (maLoai.HasValue && maLoai.Value > 0)
+        List<TaiSan> list;
+        if (maLoai <= 0)
         {
-            query = query.Where(h => h.MaLoai == maLoai.Value);
+            // Trở về trang chủ / Trang của sinh viên: NguyenGia >= 20 và không null
+            list = await _context.TaiSans
+                .Include(t => t.MaLoaiNavigation)
+                .Where(t => t.NguyenGia != null && t.NguyenGia >= 20)
+                .OrderBy(t => t.MaTs)
+                .ToListAsync();
+        }
+        else
+        {
+            // Lọc theo loại tài sản
+            list = await _context.TaiSans
+                .Include(t => t.MaLoaiNavigation)
+                .Where(t => t.MaLoai == maLoai && t.NguyenGia != null)
+                .OrderBy(t => t.MaTs)
+                .ToListAsync();
         }
 
-        var list = await query.ToListAsync();
-        return PartialView("DangTranBien_MainContent", list);
+        return PartialView("_AssetGridPartial", list);
+    }
+
+    public IActionResult Create()
+    {
+        return RedirectToAction("Create", "TaiSan");
     }
 
     public IActionResult Privacy()

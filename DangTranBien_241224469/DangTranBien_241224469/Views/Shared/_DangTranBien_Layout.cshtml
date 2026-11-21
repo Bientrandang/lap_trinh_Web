@@ -1,7 +1,30 @@
-@{
-    Layout = "DangTranBien_Layout";
-}
-@RenderBody()
-@section Scripts {
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AssetHub - Quản lý tài sản doanh nghiệp - DangTranBien (241224469)</title>
+    <!-- Câu 1.2: Ghép các thư mục tài nguyên css, js, images vào wwwroot và tham chiếu đúng đường dẫn -->
+    <link href="~/css/layout.css" rel="stylesheet" type="text/css" asp-append-version="true" />
+    <link href="~/css/style.css" rel="stylesheet" type="text/css" asp-append-version="true" />
+</head>
+<body>
+    @* Câu 1.1: Tách layout thành các phần hợp lý: DangTranBien_Header *@
+    @await Html.PartialAsync("DangTranBien_Header")
+
+    @* Nội dung chính render qua RenderBody *@
+    <main class="main">
+        @RenderBody()
+    </main>
+
+    @* Câu 1.1: Tách layout thành các phần hợp lý: DangTranBien_Footer *@
+    @await Html.PartialAsync("DangTranBien_Footer")
+
+    <div class="to-top">&uarr;</div>
+
+    <!-- Tham chiếu thư viện JavaScript -->
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/main.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
-}
+</body>
+</html>

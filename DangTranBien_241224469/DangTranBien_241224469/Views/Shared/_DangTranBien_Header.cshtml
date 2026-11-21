@@ -1,0 +1,47 @@
+@inject DangTranBien_241224469.Models.QLTaiSanContext DbContext
+@{
+    var loaiTaiSans = DbContext.LoaiTaiSans.OrderBy(l => l.MaLoai).ToList();
+    var tongSoTaiSan = DbContext.TaiSans.Count();
+    var tongNguyenGia = DbContext.TaiSans.Sum(t => t.NguyenGia ?? 0);
+}
+
+<!-- Begin Header -->
+<header class="header">
+    <div class="topbar">
+        <div class="container">
+            <span>Phòng Hành chính - Quản trị: <b>(024) 3999 8888</b> &nbsp;|&nbsp; Hỗ trợ: taisan@assethub.vn</span>
+            <span>Xin chào, Quản trị viên &nbsp;|&nbsp; <a asp-controller="TaiSan" asp-action="Create" style="color:#f5a623;font-weight:600;text-decoration:underline;">+ Thêm tài sản mới</a> &nbsp;|&nbsp; Đăng xuất</span>
+        </div>
+    </div>
+    <div class="header-main">
+        <div class="container">
+            <a asp-controller="Home" asp-action="Index"><img src="~/images/logo.png" alt="AssetHub" /></a>
+            <div style="display:flex;align-items:center;gap:15px;">
+                <a asp-controller="TaiSan" asp-action="Create" class="btn-buy" style="background:#f5a623;color:#142c52;font-weight:700;padding:8px 16px;border-radius:20px;text-decoration:none;display:inline-block;">+ Thêm tài sản</a>
+                <div class="cart-box">Tổng tài sản: @tongSoTaiSan - Nguyên giá: @tongNguyenGia.ToString("N0") triệu</div>
+            </div>
+        </div>
+    </div>
+    <nav class="navbar">
+        <div class="container">
+            <ul class="menu" id="main-nav-menu">
+                <!-- Câu 2.2: Menu “Trang chủ” được thay thế bằng họ tên sinh viên (DangTranBien) -->
+                <li class="active">
+                    <a href="/" class="nav-filter-link" data-maloai="0" data-tenloai="DangTranBien">DangTranBien</a>
+                </li>
+                <!-- Các menu còn lại được thay bằng danh sách loại tài sản từ CSDL -->
+                @foreach (var item in loaiTaiSans)
+                {
+                    <li>
+                        <a href="javascript:void(0);" class="nav-filter-link" data-maloai="@item.MaLoai" data-tenloai="@item.TenLoai">@item.TenLoai</a>
+                    </li>
+                }
+            </ul>
+            <form class="search-box" onsubmit="return false;">
+                <input type="text" placeholder="Tìm tài sản..." />
+                <button type="button">Tìm</button>
+            </form>
+        </div>
+    </nav>
+</header>
+<!-- End Header -->

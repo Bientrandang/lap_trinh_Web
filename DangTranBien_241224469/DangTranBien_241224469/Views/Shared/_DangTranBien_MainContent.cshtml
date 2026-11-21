@@ -1,0 +1,55 @@
+@model IEnumerable<DangTranBien_241224469.Models.TaiSan>
+
+<div class="container">
+    <!-- Tiêu đề khu vực nội dung (Câu 3: mặc định là họ tên sinh viên DangTranBien) -->
+    <div class="section-head">
+        <h3 id="section-title">DangTranBien</h3>
+    </div>
+
+    <!-- Khu vực danh sách tài sản cập nhật theo cơ chế AJAX (Câu 4) -->
+    <div id="asset-container">
+        @await Html.PartialAsync("_AssetGridPartial", Model)
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Câu 4: Lắng nghe sự kiện click trên từng mục của thanh điều hướng
+        $(document).on('click', '.nav-filter-link', function (e) {
+            e.preventDefault();
+
+            var maLoai = $(this).data('maloai');
+            var tenLoai = $(this).text().trim();
+
+            // Cập nhật trạng thái active trên menu
+            $('#main-nav-menu li').removeClass('active');
+            $(this).closest('li').addClass('active');
+
+            // Kiểm tra nếu đang ở trang chủ thì gọi AJAX cập nhật main content
+            if ($('#asset-container').length > 0) {
+                // Gọi AJAX đến action FilterByLoai
+                $.ajax({
+                    url: '@Url.Action("FilterByLoai", "Home")',
+                    type: 'GET',
+                    data: { maLoai: maLoai },
+                    beforeSend: function () {
+                        $('#asset-container').css('opacity', '0.5');
+                    },
+                    success: function (data) {
+                        $('#asset-container').html(data);
+                        // Tiêu đề khu vực nội dung đổi thành tên loại tài sản được chọn
+                        $('#section-title').text(tenLoai);
+                        $('#asset-container').css('opacity', '1');
+                    },
+                    error: function (xhr, status, error) {
+                        $('#asset-container').css('opacity', '1');
+                        alert('Không thể tải dữ liệu tài sản: ' + error);
+                    }
+                });
+            } else {
+                // Nếu đang ở trang khác (như trang Create), chuyển về trang chủ
+                window.location.href = '/';
+            }
+        });
+    });
+</script>

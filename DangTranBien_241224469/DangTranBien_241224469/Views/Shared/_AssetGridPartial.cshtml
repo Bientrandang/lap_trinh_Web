@@ -1,0 +1,28 @@
+@model IEnumerable<DangTranBien_241224469.Models.TaiSan>
+
+<div class="grid">
+    @if (Model != null && Model.Any())
+    {
+        foreach (var item in Model)
+        {
+            <div class="asset-card">
+                <a href="javascript:void(0);">
+                    <img src="~/images/@item.Anh" alt="@item.TenTs" />
+                </a>
+                <h2>@item.TenTs</h2>
+                <div class="asset-foot">
+                    <span class="price">
+                        @(item.NguyenGia.HasValue ? $"{item.NguyenGia:N0} tr" : "Chưa định giá")
+                    </span>
+                    <button class="btn-buy" type="button">Chi tiết</button>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div style="grid-column: 1 / -1; padding: 40px; text-align: center; color: #777; background: #fff; border-radius: 8px;">
+            Không có tài sản nào trong danh mục này.
+        </div>
+    }
+</div>
