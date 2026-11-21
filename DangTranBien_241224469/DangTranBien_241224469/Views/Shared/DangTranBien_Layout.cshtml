@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>@(ViewData["Title"] ?? "DangTranBien - 241224469")</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="~/css/style.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="~/css/slider.css" rel="stylesheet" type="text/css" media="all"/>
+    <script src="~/js/jquery-1.7.2.min.js"></script>
+    <script src="~/js/move-top.js"></script>
+    <script src="~/js/easing.js"></script>
+    <script src="~/js/startstop-slider.js"></script>
+    <style>
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            font-size: 14px;
+            color: #333;
+        }
+        .form-control {
+            width: 100%;
+            max-width: 320px;
+            padding: 6px 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+            font-size: 14px;
+            background: #fff;
+        }
+        .btn-create {
+            background-color: #f7f7f7;
+            color: #333;
+            border: 1px solid #767676;
+            padding: 4px 16px;
+            cursor: pointer;
+            border-radius: 3px;
+            font-size: 13px;
+        }
+        .btn-create:hover {
+            background-color: #e3e3e3;
+        }
+        .text-danger {
+            color: #d9534f;
+            font-size: 13px;
+            display: block;
+            margin-top: 4px;
+        }
+        .create-form-container {
+            padding: 25px 20px;
+            background: #fff;
+            min-height: 400px;
+        }
+        .create-form-container h2 {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .create-form-container h4 {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 15px;
+        }
+        .create-form-container hr {
+            border: 0;
+            border-top: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Begin Wrap -->
+    <div class="wrap">
+        @await Html.PartialAsync("DangTranBien_Header")
+        
+        <div class="main" id="mainContentArea">
+            @RenderBody()
+        </div>
+    </div>
+    <!-- End Wrap -->
+
+    @await Html.PartialAsync("DangTranBien_Footer")
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,39 @@
+@model IEnumerable<DangTranBien_241224469.Models.HangHoa>
+
+@{
+    ViewData["Title"] = "Danh Sách Hàng Hóa - DangTranBien";
+    Layout = "DangTranBien_Layout";
+}
+
+<div class="content" style="padding: 20px;">
+    <h2>Danh Sách Hàng Hóa</h2>
+    <p>
+        <a asp-action="Create" class="btn-create" style="display:inline-block; margin-bottom: 15px; text-decoration:none;">+ Thêm Hàng Hóa Mới</a>
+    </p>
+    <table style="width: 100%; border-collapse: collapse; margin-top: 10px;" border="1" cellpadding="8">
+        <thead>
+            <tr style="background-color: #f2f2f2;">
+                <th>Mã Hàng</th>
+                <th>Tên Hàng</th>
+                <th>Loại Hàng</th>
+                <th>Giá</th>
+                <th>Ảnh</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.MaHang</td>
+                    <td>@item.TenHang</td>
+                    <td>@item.MaLoaiNavigation?.TenLoai</td>
+                    <td>@string.Format("{0:N0}", item.Gia)</td>
+                    <td>
+                        <img src="~/images/@item.Anh" alt="@item.TenHang" style="max-height: 50px;" />
+                        <span>@item.Anh</span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,12 +1,14 @@
-using Microsoft.EntityFrameworkCore;
 using DangTranBien_241224469.Models;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<QlnhaSachContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("QLNhaSach")));
+
+builder.Services.AddDbContext<QLHangHoaContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection") 
+        ?? "Server=localhost;Database=QLHangHoa;Trusted_Connection=True;TrustServerCertificate=True;"));
 
 var app = builder.Build();
 
@@ -18,15 +20,14 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
+
 app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapStaticAssets();
-
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
